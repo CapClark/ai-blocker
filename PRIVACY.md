@@ -23,4 +23,4 @@ The broad `<all_urls>` host permission is required only so the extension can run
 its on-device blocking on every site and read image metadata; it is not used to
 collect data.
 
-_Contact: peeranatsugsavanvit@gmail.com_
+_Contact: ksugsavanvit@wesleyan.edu_
