@@ -23,7 +23,7 @@
     allowlist: [],
     categories: { search: true, social: true, shopping: true, productivity: true },
     slopBadge: true,
-    filterSubscriptions: [],
+    filterSubscriptions: ['https://raw.githubusercontent.com/CapClark/ai-blocker/main/filters/live.json'],
   };
 
   ns.mergeDefaults = (s) => {

@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "updated": "2026-06-23",
+  "note": "LIVE hot-patch list — the default subscription for the AI Blocker extension. Edit this file to fix or add rules; every install picks up changes within ~24h (or immediately via the popup's 'Update now'). Rules here are ADDED on top of the built-in rules, so adding a corrected selector heals a rotted built-in one with no extension release. Format: see filters/remote-example.json. Lists are data, never code.",
+  "cosmetic": [
+    {
+      "id": "google-ai-overview-live",
+      "label": "Google AI Overview",
+      "category": "search",
+      "hosts": ["google.com", "google.co.uk", "google.ca", "google.com.au", "google.de", "google.fr", "google.co.in", "google.co.jp", "google.com.br"],
+      "css": ["div[data-attrid=\"AIOverview\"]", "div[jsname=\"N760b\"]"],
+      "text": [
+        { "contains": "AI Overview", "scope": "h1,h2,[role=\"heading\"]", "upClosest": "div[data-mcpr]", "up": 5 }
+      ]
+    },
+    {
+      "id": "google-ai-mode-live",
+      "label": "Google AI Mode",
+      "category": "search",
+      "hosts": ["google.com", "google.co.uk", "google.ca", "google.com.au", "google.de", "google.fr", "google.co.in", "google.co.jp", "google.com.br"],
+      "css": ["a[href*=\"udm=50\"]"]
+    }
+  ],
+  "slopDomains": []
+}

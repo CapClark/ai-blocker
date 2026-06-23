@@ -22,7 +22,9 @@ export const DEFAULT_SETTINGS = {
   allowlist: [], // hostname suffixes to skip entirely
   categories: { search: true, social: true, shopping: true, productivity: true },
   slopBadge: true, // floating badge on flagged "AI slop" domains
-  filterSubscriptions: [], // remote filter-list URLs (refreshed daily)
+  // Default hot-patch list (refreshed daily) — edit filters/live.json in the
+  // repo to fix rotted selectors for every install without an extension release.
+  filterSubscriptions: ['https://raw.githubusercontent.com/CapClark/ai-blocker/main/filters/live.json'],
 };
 
 export function mergeDefaults(s) {

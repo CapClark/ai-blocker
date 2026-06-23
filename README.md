@@ -152,13 +152,22 @@ worker fetches remote JSON filter lists daily (and on install/startup), strictly
 content scripts merge them on top of the built-in rules. Lists are *data, never
 code* — MV3 forbids remote code, and the sanitizer drops anything unexpected.
 
-To use one: host a JSON file (GitHub raw, a gist, jsDelivr, Cloudflare Pages —
-all free) in the shape of `filters/remote-example.json`, then paste its URL into
-**options → Filter subscriptions** and hit **Update now**. The status line shows
-when it last refreshed and how many rules/domains loaded.
+The extension ships with one subscription enabled by default:
+`filters/live.json` in this repo (served over `raw.githubusercontent.com`).
+**This is the hot-patch channel** — when a built-in selector rots, edit
+`filters/live.json`, commit, and every install heals within ~24h (or instantly
+via the popup's **Update now**). Remote rules are *added* on top of the built-in
+ones, so a corrected selector fixes a stale one without an extension release.
 
-This is what lets a list be community-maintained: fix a broken Google selector
-once in the hosted file and every subscriber gets it on their next daily refresh.
+To add your own: paste a URL into **options → Filter subscriptions** (GitHub raw,
+a gist, jsDelivr, Cloudflare Pages — all free) in the shape of
+`filters/remote-example.json`. The status line shows the last refresh and how
+many rules/domains loaded. The same mechanism lets a list be
+community-maintained: subscribe and inherit other people's fixes automatically.
+
+> Note: existing installs that already saved settings keep their old (empty)
+> subscription list — paste the URL once, or clear the extension's storage. Fresh
+> installs get the default automatically.
 
 ## Publishing
 
