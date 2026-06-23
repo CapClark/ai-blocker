@@ -69,6 +69,9 @@ async function render() {
 
 document.addEventListener('DOMContentLoaded', async () => {
   await render();
+  // The content script's scan is debounced, so the first count can lag the
+  // hidden elements by a frame — re-read shortly after opening.
+  setTimeout(() => render().catch(() => {}), 600);
 
   $('#enabled').addEventListener('change', async (e) => {
     await saveSettings({ enabled: e.target.checked });

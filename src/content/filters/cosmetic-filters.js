@@ -40,10 +40,13 @@
       id: 'google-ai-mode',
       label: 'Google AI Mode',
       category: 'search',
-      hosts: ['google.com'],
-      text: [
-        { contains: 'AI Mode', scope: 'a,div[role="listitem"],span', maxLen: 16, up: 1 },
-      ],
+      hosts: ['google.com', 'google.co.uk', 'google.ca', 'google.com.au',
+        'google.de', 'google.fr', 'google.co.in', 'google.co.jp', 'google.com.br'],
+      // The AI Mode tab links to &udm=50 (the stable AI-Mode parameter). Hide
+      // ONLY that tab — never climb to its container, which holds the
+      // All/Images/Videos/News/Tools tabs. (Previously a text rule with up:1
+      // collapsed the whole tab strip.)
+      css: ['a[href*="udm=50"]'],
     },
     {
       id: 'bing-copilot',
