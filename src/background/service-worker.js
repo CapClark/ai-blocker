@@ -68,6 +68,7 @@ function sanitizeRule(r) {
           scope: typeof t.scope === 'string' ? t.scope : undefined,
           maxLen: Number.isFinite(t.maxLen) ? t.maxLen : undefined,
           up: Number.isInteger(t.up) ? t.up : undefined,
+          upClosest: typeof t.upClosest === 'string' ? t.upClosest : undefined,
         }))
     : undefined;
   if (!css?.length && !text?.length) return null;

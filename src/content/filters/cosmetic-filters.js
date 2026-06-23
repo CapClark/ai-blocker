@@ -24,12 +24,16 @@
       category: 'search',
       hosts: ['google.com', 'google.co.uk', 'google.ca', 'google.com.au',
         'google.de', 'google.fr', 'google.co.in', 'google.co.jp', 'google.com.br'],
+      // Attribute selectors are more durable than class names; the text rule is
+      // the real workhorse — find the "AI Overview" heading, climb to the
+      // stable div[data-mcpr] container. (Verified against community filter
+      // lists, 2025; see README "Updating a rotted selector".)
       css: [
-        'div[data-attrid="SGE"]',
-        'div[data-async-context*="ai_overview"]',
+        'div[data-attrid="AIOverview"]',
+        'div[jsname="N760b"]',
       ],
       text: [
-        { contains: 'AI Overview', scope: 'h1,h2,h3,[role="heading"]', maxLen: 24, up: 4 },
+        { contains: 'AI Overview', scope: 'h1,h2,[role="heading"]', maxLen: 24, upClosest: 'div[data-mcpr]', up: 5 },
       ],
     },
     {

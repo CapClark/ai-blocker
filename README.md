@@ -1,5 +1,7 @@
 # AI Blocker
 
+[![CI](https://github.com/CapClark/ai-blocker/actions/workflows/ci.yml/badge.svg)](https://github.com/CapClark/ai-blocker/actions/workflows/ci.yml)
+
 A Manifest V3 browser extension that hides **AI product surfaces** (Google AI
 Overviews, Bing Copilot answers, X Grok, Meta AI, LinkedIn collaborative
 articles, Amazon AI review summaries, Gmail Gemini…), **labels or blurs images
@@ -123,6 +125,24 @@ Add a rule to `cosmetic-filters.js`:
 `css` selectors are the part that rots fastest (sites rename classes) — treat
 this like an ad-block filter list. The `text` rules survive longer because they
 key off the visible "AI Overview" / "Copilot" labels.
+
+### Updating a rotted selector
+
+When a surface stops hiding, prefer a text rule over a class name. The durable
+pattern (used by the Google AI Overview rule) is: match the visible label, then
+climb to a stable container attribute with `upClosest` rather than counting
+hops:
+
+```js
+text: [
+  { contains: 'AI Overview', scope: 'h1,h2,[role="heading"]', upClosest: 'div[data-mcpr]', up: 5 },
+]
+```
+
+`upClosest` runs `el.closest(selector)` from the matched label; `up` (hop count)
+is the fallback if that ancestor isn't found. To find the right container,
+right-click the AI block → Inspect, and look for a stable ancestor attribute
+(`data-mcpr`, `data-attrid`, `jsname`) — not a random class like `.GcKpu`.
 
 ## Filter subscriptions (update without reinstalling)
 

@@ -121,12 +121,30 @@
       cands.forEach((el) => {
         const label = (el.getAttribute('aria-label') || el.textContent || '').trim();
         if (label.length > max || !label.toLowerCase().includes(needle)) return;
-        let target = el;
-        const hops = t.up ?? DEFAULT_HOPS;
-        for (let i = 0; i < hops && target.parentElement; i++) target = target.parentElement;
-        changed = this.process(target, rule) || changed;
+        const target = this.climb(el, t);
+        if (target) changed = this.process(target, rule) || changed;
       });
       return changed;
+    }
+
+    // Find the container to hide from a matched label element. `upClosest` (a
+    // CSS selector for a stable ancestor, e.g. div[data-mcpr]) is preferred —
+    // it survives DOM churn far better than a fixed hop count, which is the
+    // fallback. Mirrors the community :has-text(...):xpath(./ancestor::...).
+    climb(el, t) {
+      if (t.upClosest) {
+        let hit;
+        try {
+          hit = el.closest(t.upClosest);
+        } catch {
+          hit = null;
+        }
+        if (hit) return hit;
+      }
+      let target = el;
+      const hops = t.up ?? DEFAULT_HOPS;
+      for (let i = 0; i < hops && target.parentElement; i++) target = target.parentElement;
+      return target;
     }
 
     // --- actions -----------------------------------------------------------
