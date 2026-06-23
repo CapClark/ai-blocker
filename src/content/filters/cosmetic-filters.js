@@ -75,13 +75,18 @@
         '[data-csa-c-content-id*="aiReviewSummary"]',
         'div[data-hook="cr-product-insights-card"]',
       ],
+      // Amazon's AI review summary sits under the heading "Customers say".
+      text: [
+        { contains: 'Customers say', scope: 'h2,h3,[role="heading"]', maxLen: 16, up: 2 },
+      ],
     },
     {
       id: 'x-grok',
       label: 'X Grok',
       category: 'social',
       hosts: ['x.com', 'twitter.com'],
-      css: ['a[href="/i/grok"]', '[data-testid="GrokDrawer"]', 'button[aria-label*="Grok"]'],
+      // a[aria-label="Grok"] is the community-standard sidebar selector.
+      css: ['a[aria-label="Grok"]', 'a[href="/i/grok"]', '[data-testid="GrokDrawer"]', 'button[aria-label*="Grok"]'],
     },
     {
       id: 'facebook-meta-ai',

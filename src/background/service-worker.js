@@ -3,6 +3,7 @@
 // hook reserved for a later layer.
 import { MSG, FILTERS_KEY, getSettings } from '../shared/settings.js';
 import { parseProvenance } from './provenance.js';
+import { sanitizeList } from './filters.js';
 
 // --- per-tab badge ---------------------------------------------------------
 
@@ -52,45 +53,6 @@ async function checkImage(url) {
 // Filter lists are *data*, not code (MV3 forbids remote code). We fetch the
 // user's subscription URLs, strictly sanitize the JSON into the shapes the
 // engine understands, and cache the result for the content scripts to merge.
-
-const CATEGORIES = ['search', 'social', 'shopping', 'productivity'];
-
-function sanitizeRule(r) {
-  if (!r || typeof r.id !== 'string') return null;
-  const hosts = Array.isArray(r.hosts) ? r.hosts.filter((h) => typeof h === 'string') : [];
-  if (!hosts.length) return null;
-  const css = Array.isArray(r.css) ? r.css.filter((s) => typeof s === 'string') : undefined;
-  const text = Array.isArray(r.text)
-    ? r.text
-        .filter((t) => t && typeof t.contains === 'string')
-        .map((t) => ({
-          contains: t.contains,
-          scope: typeof t.scope === 'string' ? t.scope : undefined,
-          maxLen: Number.isFinite(t.maxLen) ? t.maxLen : undefined,
-          up: Number.isInteger(t.up) ? t.up : undefined,
-          upClosest: typeof t.upClosest === 'string' ? t.upClosest : undefined,
-        }))
-    : undefined;
-  if (!css?.length && !text?.length) return null;
-  return {
-    id: r.id,
-    label: typeof r.label === 'string' ? r.label : r.id,
-    category: CATEGORIES.includes(r.category) ? r.category : 'search',
-    hosts,
-    css,
-    text,
-  };
-}
-
-function sanitizeList(json) {
-  const cosmetic = Array.isArray(json?.cosmetic)
-    ? json.cosmetic.map(sanitizeRule).filter(Boolean)
-    : [];
-  const slopDomains = Array.isArray(json?.slopDomains)
-    ? json.slopDomains.filter((d) => typeof d === 'string').map((d) => d.toLowerCase())
-    : [];
-  return { cosmetic, slopDomains };
-}
 
 async function refreshFilters() {
   const { filterSubscriptions = [] } = await getSettings();

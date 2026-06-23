@@ -165,6 +165,10 @@ a gist, jsDelivr, Cloudflare Pages — all free) in the shape of
 many rules/domains loaded. The same mechanism lets a list be
 community-maintained: subscribe and inherit other people's fixes automatically.
 
+For selector ideas, the uBlock-format [Stevos-GenAI-Blocklist](https://github.com/Stevoisiak/Stevos-GenAI-Blocklist)
+is a maintained list of GenAI website features worth tracking/porting into
+`live.json`.
+
 > Note: existing installs that already saved settings keep their old (empty)
 > subscription list — paste the URL once, or clear the extension's storage. Fresh
 > installs get the default automatically.
