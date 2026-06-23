@@ -1,0 +1,103 @@
+:root {
+  color-scheme: light dark;
+  --fg: #111827;
+  --muted: #6b7280;
+  --line: #e8eaed;
+  --accent: #0d9488;
+  --accent-soft: #d6f3ef;
+  --bg: #ffffff;
+  --card: #f6f7f8;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #f3f4f6; --muted: #9ca3af; --line: #2b3240; --accent: #2dd4bf;
+    --accent-soft: #133b38; --bg: #161b22; --card: #1f2630;
+  }
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+.wrap {
+  width: 280px;
+  padding: 14px;
+  font: 13px/1.45 system-ui, -apple-system, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+}
+
+/* header */
+header { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; }
+.logo {
+  width: 22px; height: 22px; border-radius: 7px; flex: none;
+  background: var(--accent);
+  position: relative;
+}
+.logo::after {
+  content: ""; position: absolute; inset: 4px; border-radius: 50%;
+  border: 2px solid #fff;
+  background: linear-gradient(-45deg, transparent 44%, #fff 44%, #fff 56%, transparent 56%);
+}
+.title { font-size: 14px; font-weight: 500; flex: 1; }
+
+/* hero stat */
+.hero {
+  text-align: center; padding: 16px 12px; margin-bottom: 12px;
+  background: var(--accent-soft); border-radius: 14px;
+}
+.hero.clear { background: var(--card); }
+.big { font-size: 30px; font-weight: 500; line-height: 1; color: var(--accent); }
+.hero.clear .big { color: var(--muted); }
+.sub { margin-top: 5px; color: var(--fg); font-size: 12px; }
+
+/* site row */
+.site {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; margin-bottom: 10px;
+  background: var(--card); border-radius: 12px;
+}
+.site-host { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.site-host .muted { color: var(--muted); font-size: 11px; }
+#host { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 170px; }
+
+/* control rows */
+.ctrl {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 2px;
+}
+.ctrl .label { color: var(--muted); }
+
+/* segmented control */
+.seg {
+  display: inline-flex; gap: 2px; padding: 2px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 9px;
+}
+.seg button {
+  font: inherit; font-size: 12px; border: 0; cursor: pointer;
+  background: transparent; color: var(--muted);
+  padding: 4px 11px; border-radius: 7px; transition: background .12s, color .12s;
+}
+.seg button.active { background: var(--bg); color: var(--fg); box-shadow: 0 1px 2px rgba(0,0,0,.14); }
+
+/* toggle switch */
+.switch-wrap { display: inline-flex; }
+.switch {
+  appearance: none; -webkit-appearance: none; margin: 0;
+  width: 38px; height: 22px; border-radius: 999px; background: var(--line);
+  position: relative; cursor: pointer; transition: background .15s; flex: none;
+}
+.switch:checked { background: var(--accent); }
+.switch::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 18px; height: 18px; border-radius: 50%; background: #fff;
+  transition: transform .15s; box-shadow: 0 1px 2px rgba(0,0,0,.3);
+}
+.switch:checked::after { transform: translateX(16px); }
+.switch:disabled { opacity: .4; cursor: not-allowed; }
+
+/* footer link */
+.link {
+  display: block; text-align: center; margin-top: 12px;
+  color: var(--accent); text-decoration: none; font-size: 12px;
+}
+.link:hover { text-decoration: underline; }

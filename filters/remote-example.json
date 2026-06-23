@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "updated": "2026-06-23",
+  "note": "Example subscription list. Host this JSON anywhere with a public URL (GitHub raw, a gist, jsDelivr, Cloudflare Pages) and paste the URL into the extension's options. It's merged with the built-in rules and refreshed daily. Only the fields below are read; anything else is ignored. Filter lists are DATA, never code.",
+  "cosmetic": [
+    {
+      "id": "example-news-ai-summary",
+      "label": "Example News AI summary",
+      "category": "search",
+      "hosts": ["example-news.com"],
+      "css": [".ai-summary", "[data-component=\"ai-recap\"]"]
+    },
+    {
+      "id": "example-forum-ai-answer",
+      "label": "Example Forum AI answer",
+      "category": "search",
+      "hosts": ["example-forum.com"],
+      "text": [
+        { "contains": "AI-generated answer", "scope": "h2,[role=\"heading\"]", "maxLen": 30, "up": 3 }
+      ]
+    }
+  ],
+  "slopDomains": ["example-ai-content-farm.com", "another-slop-site.example"]
+}

@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||ai-content-cdn.example/",
+      "resourceTypes": ["script", "image", "xmlhttprequest"]
+    }
+  }
+]

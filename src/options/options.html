@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Blocker — settings</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <main>
+    <header class="page-head">
+      <span class="logo"></span>
+      <div>
+        <h1>AI Blocker</h1>
+        <p class="tagline">Hide AI product surfaces and flag declared AI media.</p>
+      </div>
+    </header>
+
+    <section class="card">
+      <label class="row toggle">
+        <span class="text"><b>Enabled</b><small>Master switch for all blocking</small></span>
+        <input type="checkbox" id="enabled" class="switch" />
+      </label>
+      <div class="row">
+        <span class="text"><b>Hidden surfaces</b><small>What to do with a detected AI surface</small></span>
+        <div class="seg" data-key="action">
+          <button data-val="remove">Remove</button>
+          <button data-val="collapse">Collapse</button>
+        </div>
+      </div>
+      <label class="row toggle">
+        <span class="text"><b>Slop-domain badge</b><small>Flag pages on the AI-content blocklist</small></span>
+        <input type="checkbox" id="slopBadge" class="switch" />
+      </label>
+    </section>
+
+    <h2>AI images</h2>
+    <p class="hint">Reads C2PA Content Credentials and EXIF/XMP metadata. Only catches images that were <em>declared</em> AI — it doesn't guess from pixels.</p>
+    <section class="card">
+      <div class="row">
+        <span class="text"><b>When an image is declared AI</b><small>Label adds a small badge; Blur hides it until you click</small></span>
+        <div class="seg" data-key="mediaAction">
+          <button data-val="label">Label</button>
+          <button data-val="blur">Blur</button>
+          <button data-val="off">Off</button>
+        </div>
+      </div>
+    </section>
+
+    <h2>Surfaces</h2>
+    <p class="hint">Turn off a category to keep its AI features visible.</p>
+    <section class="card" id="categories"></section>
+
+    <h2>Filter subscriptions</h2>
+    <p class="hint">Remote filter lists (one URL per line) are merged with the built-in rules and refreshed daily — so selectors can be fixed without reinstalling. See <code>filters/remote-example.json</code> for the format.</p>
+    <section class="card">
+      <div class="row">
+        <span class="text"><b>Last updated</b><small id="filters-status">Never</small></span>
+        <button id="refresh" class="btn" type="button">Update now</button>
+      </div>
+    </section>
+    <textarea id="subs" rows="3" spellcheck="false" placeholder="https://example.com/ai-filters.json"></textarea>
+
+    <h2>Allowlist</h2>
+    <p class="hint">One hostname per line. Blocking is skipped entirely on these sites.</p>
+    <textarea id="allowlist" rows="5" spellcheck="false" placeholder="example.com"></textarea>
+  </main>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

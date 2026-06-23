@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Blocker — test page</title>
+  <style>
+    :root { --fg:#1f2937; --muted:#6b7280; --line:#e5e7eb; --accent:#0d9488; --card:#f9fafb; }
+    * { box-sizing: border-box; }
+    body { margin:0; font:15px/1.6 system-ui,-apple-system,sans-serif; color:var(--fg); background:#fff; }
+    main { max-width:760px; margin:0 auto; padding:32px 22px 64px; }
+    h1 { font-size:22px; font-weight:600; }
+    h2 { font-size:16px; font-weight:600; margin:34px 0 6px; }
+    p.lead { color:var(--muted); }
+    .note { background:#ecfeff; border:1px solid #a5f3fc; border-radius:12px; padding:12px 16px; font-size:14px; }
+    .note code { background:#cffafe; padding:1px 5px; border-radius:4px; }
+    ol { padding-left:20px; }
+
+    /* mock search results */
+    .serp { border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+    .ai-overview {
+      background:linear-gradient(180deg,#eef6ff,#fff); padding:16px 18px; border-bottom:1px solid var(--line);
+    }
+    .ai-overview .tag {
+      display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600;
+      color:#1d4ed8; background:#dbeafe; padding:3px 9px; border-radius:999px; margin-bottom:8px;
+    }
+    .result { padding:16px 18px; }
+    .result .url { color:var(--muted); font-size:13px; }
+    .result a { color:#1a0dab; text-decoration:none; font-size:18px; }
+    .ok { color:var(--accent); font-weight:600; }
+
+    /* image grid */
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:18px; margin-top:10px; }
+    figure { margin:0; }
+    figure img { width:100%; height:auto; border-radius:10px; display:block; }
+    figcaption { font-size:13px; margin-top:7px; }
+    figcaption b { display:block; }
+    figcaption small { color:var(--muted); }
+  </style>
+</head>
+<body>
+<main>
+  <h1>AI Blocker — test page</h1>
+  <p class="lead">A controlled page for watching the extension work, with one mock AI surface and images that carry declared-AI metadata.</p>
+
+  <div class="note">
+    <b>Setup</b>
+    <ol>
+      <li>Load the extension at <code>chrome://extensions</code> (Developer mode → Load unpacked).</li>
+      <li>Serve this folder over HTTP so the worker can read the image bytes:<br />
+        <code>cd test &amp;&amp; python3 -m http.server 8000</code></li>
+      <li>Open <code>http://localhost:8000/</code> (the file:// scheme won't work — image bytes can't be fetched from it).</li>
+    </ol>
+  </div>
+
+  <h2>1 · Mock AI surface</h2>
+  <p class="lead">With the extension on (Search category enabled), the AI Overview below is removed or collapsed. The normal result stays put — that's the no-false-positives check.</p>
+
+  <div class="serp">
+    <div class="ai-overview" data-aiblock-demo="ai-overview">
+      <span class="tag">✦ AI Overview</span>
+      <p>This block imitates a generated answer summary. When AI Blocker is active on localhost it should disappear (Remove) or turn into a "show" placeholder (Collapse). Toggle the action in the popup and reload to compare.</p>
+    </div>
+    <div class="result">
+      <div class="url">example.com › docs</div>
+      <a href="#">A normal search result <span class="ok">(should stay visible)</span></a>
+      <p>Regular human-authored content the extension must never touch.</p>
+    </div>
+  </div>
+
+  <h2>2 · Declared-AI images</h2>
+  <p class="lead">Each image embeds metadata markers. With <b>Images: Label</b> they get a corner badge; with <b>Blur</b> the red "AI" ones blur until clicked. The last one is a clean control and should stay untouched.</p>
+
+  <div class="grid">
+    <figure>
+      <img src="images/ai-generated.png" alt="test" />
+      <figcaption><b>ai-generated</b><small>IPTC trainedAlgorithmicMedia → red “AI”</small></figcaption>
+    </figure>
+    <figure>
+      <img src="images/ai-edited.png" alt="test" />
+      <figcaption><b>ai-edited</b><small>IPTC composite → red “AI edited”</small></figcaption>
+    </figure>
+    <figure>
+      <img src="images/ai-software.png" alt="test" />
+      <figcaption><b>ai-software</b><small>Software: Midjourney → red “AI”</small></figcaption>
+    </figure>
+    <figure>
+      <img src="images/content-credentials.png" alt="test" />
+      <figcaption><b>content-credentials</b><small>C2PA present → teal “CR”, never blurred</small></figcaption>
+    </figure>
+    <figure>
+      <img src="images/plain-photo.png" alt="test" />
+      <figcaption><b>none</b><small>Ordinary photo → <span class="ok">no badge</span></small></figcaption>
+    </figure>
+    <figure>
+      <img src="images/ai-generated.jpg" alt="test" />
+      <figcaption><b>ai-generated</b><small>JPEG · XMP APP1 → red “AI”</small></figcaption>
+    </figure>
+    <figure>
+      <img src="images/ai-software.jpg" alt="test" />
+      <figcaption><b>ai-software</b><small>JPEG · EXIF Software → red “AI”</small></figcaption>
+    </figure>
+    <figure>
+      <img src="images/plain-photo.png" alt="A landscape, generated with Midjourney" />
+      <figcaption><b>ai-context</b><small>No metadata, but caption says Midjourney → amber “AI?”</small></figcaption>
+    </figure>
+  </div>
+
+  <p class="lead">Right-click any image and choose <b>Verify image with AI Blocker</b> to run the on-demand check — it reports the metadata verdict instantly, then the pixel model (a labeled stub until a model is wired in).</p>
+
+  <h2>What the badge should read</h2>
+  <p class="lead">Open the popup: the count should be <b>1 AI surface hidden</b> plus <b>6 AI images flagged</b> — three AI PNGs, both AI JPEGs (declared, red “AI”), and one context-inferred image (amber “AI?”). The CR and plain images don't count toward the tally. Switch Images to Blur, or allowlist <code>localhost</code>, and reload to see everything revert.</p>
+</main>
+</body>
+</html>

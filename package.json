@@ -1,0 +1,12 @@
+{
+  "name": "ai-blocker",
+  "version": "0.1.0",
+  "description": "Manifest V3 extension that hides AI product surfaces and flags declared AI media.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:fixtures": "python3 test/make_test_images.py",
+    "test": "node --test \"test/**/*.test.mjs\"",
+    "package": "bash scripts/package.sh"
+  }
+}

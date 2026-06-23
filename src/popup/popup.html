@@ -1,0 +1,47 @@
+<!doctype html>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="popup.css" />
+<div class="wrap">
+  <header>
+    <span class="logo"></span>
+    <div class="title">AI Blocker</div>
+    <label class="switch-wrap" title="Turn blocking on or off">
+      <input type="checkbox" id="enabled" class="switch" />
+    </label>
+  </header>
+
+  <div class="hero" id="hero">
+    <div class="big" id="count">0</div>
+    <div class="sub" id="summary">Looking…</div>
+  </div>
+
+  <div class="site">
+    <div class="site-host">
+      <span class="muted">This site</span>
+      <span id="host">—</span>
+    </div>
+    <label class="switch-wrap" title="Block on this site">
+      <input type="checkbox" id="allow" class="switch" />
+    </label>
+  </div>
+
+  <div class="ctrl">
+    <span class="label">Hidden surfaces</span>
+    <div class="seg" data-key="action">
+      <button data-val="remove">Remove</button>
+      <button data-val="collapse">Collapse</button>
+    </div>
+  </div>
+
+  <div class="ctrl">
+    <span class="label">AI images</span>
+    <div class="seg" data-key="mediaAction">
+      <button data-val="label">Label</button>
+      <button data-val="blur">Blur</button>
+      <button data-val="off">Off</button>
+    </div>
+  </div>
+
+  <a href="#" id="options" class="link">All settings →</a>
+</div>
+<script type="module" src="popup.js"></script>
